@@ -1,3 +1,7 @@
 <?php
 
-var_dump($_SERVER);
+App::get('database')->insert('table_name', [
+    'name' => $_POST['name']
+]);
+
+header('location: /');

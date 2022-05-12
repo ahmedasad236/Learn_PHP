@@ -13,7 +13,19 @@ class QueryBuilder {
     }
 
     public function insert($table, $parameters) {
-        $querey = sprintf('insert into %s (%s) values (%s)');
+        $query = sprintf(
+            'insert into %s (%s) values (%s)',
+            $table,
+            implode(', ', array_keys($parameters)),
+            ':'.implode(', :', array_keys($parameters))
+        );
         
+        try {
+            $statement = $this->pdo->prepare($query);
+            $statement->execute($parameters);
+        
+        } catch(Exception $e) {
+            die('Oops, Something went wrong .....');
+        }
     }
 }
